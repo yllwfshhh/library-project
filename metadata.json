@@ -1,0 +1,5 @@
+{
+  "name": "Library Management System",
+  "description": "A library management system with users, inventory, books, and borrowing records.",
+  "requestFramePermissions": []
+}

@@ -1,0 +1,3 @@
+com/library/LibraryApplication.class
+com/library/repository/LibraryRepository.class
+com/library/controller/LibraryController.class
