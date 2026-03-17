@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  db:
+    image: mysql:8.0
+    container_name: library_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: LibraryDB
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./LibraryProject/DB/DDL.sql:/docker-entrypoint-initdb.d/1_DDL.sql
+      - ./LibraryProject/DB/DML.sql:/docker-entrypoint-initdb.d/2_DML.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  backend:
+    image: maven:3.9.4-eclipse-temurin-17
+    container_name: library_backend
+    working_dir: /app
+    volumes:
+      - ./LibraryProject:/app
+    ports:
+      - "8080:8080"
+    command: >
+      bash -c "
+      echo 'Waiting for database...' &&
+      sleep 15 &&
+      mvn spring-boot:run -Dspring-boot.run.arguments='--spring.datasource.url=jdbc:mysql://db:3306/LibraryDB?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8 --spring.datasource.username=root --spring.datasource.password=root'
+      "
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    image: node:18-alpine
+    container_name: library_frontend
+    working_dir: /app
+    volumes:
+      - ./LibraryProject/frontend:/app
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host"
+    depends_on:
+      - backend
