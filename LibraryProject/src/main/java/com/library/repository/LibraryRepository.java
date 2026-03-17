@@ -19,14 +19,19 @@ public class LibraryRepository {
 
     // 取得庫存清單 (使用 Parameterized Query 防止 SQL Injection)
     public List<Map<String, Object>> getInventory() {
-        String sql = "SELECT i.InventoryId, i.ISBN, i.StoreTime, i.Status, b.Name, b.Author " +
+        String sql = "SELECT i.InventoryId, i.ISBN, i.StoreTime, i.Status, b.Name, b.Author, " +
+                     "(SELECT DATE_ADD(br.BorrowingTime, INTERVAL 14 DAY) " +
+                     " FROM BorrowingRecord br " +
+                     " WHERE br.InventoryId = i.InventoryId AND br.ReturnTime IS NULL " +
+                     " ORDER BY br.BorrowingTime DESC LIMIT 1) as ExpectedReturnTime " +
                      "FROM Inventory i JOIN Book b ON i.ISBN = b.ISBN";
         return jdbcTemplate.queryForList(sql);
     }
 
     // 取得使用者的借閱紀錄
     public List<Map<String, Object>> getUserBorrowingRecords(int userId) {
-        String sql = "SELECT br.RecordId, br.BorrowingTime, br.ReturnTime, i.InventoryId, i.Status, b.Name, b.ISBN " +
+        String sql = "SELECT br.RecordId, br.BorrowingTime, br.ReturnTime, i.InventoryId, i.Status, b.Name, b.ISBN, " +
+                     "DATE_ADD(br.BorrowingTime, INTERVAL 14 DAY) as ExpectedReturnTime " +
                      "FROM BorrowingRecord br " +
                      "JOIN Inventory i ON br.InventoryId = i.InventoryId " +
                      "JOIN Book b ON i.ISBN = b.ISBN " +

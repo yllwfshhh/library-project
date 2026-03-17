@@ -65,6 +65,9 @@
                       <span class="truncate">Author: {{ item.Author }} | ISBN: {{ item.ISBN }}</span>
                     </div>
                   </div>
+                  <div v-if="item.Status === '已借閱'" class="mt-1 flex items-center text-sm text-red-500">
+                    <span>Expected Return Date: {{ item.ExpectedReturnTime ? new Date(item.ExpectedReturnTime).toLocaleDateString() : 'N/A' }}</span>
+                  </div>
                 </div>
                 <div class="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
                   <div class="flex space-x-4 items-center">
@@ -108,6 +111,9 @@
                         <span v-if="record.ReturnTime"> | Returned: {{ new Date(record.ReturnTime).toLocaleString() }}</span>
                       </span>
                     </div>
+                  </div>
+                  <div v-if="!record.ReturnTime" class="mt-1 flex items-center text-sm text-red-500">
+                    <span>Please return by: {{ new Date(record.ExpectedReturnTime).toLocaleDateString() }}</span>
                   </div>
                 </div>
                 <div class="mt-4 flex-shrink-0 sm:mt-0 sm:ml-5">
