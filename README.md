@@ -42,39 +42,53 @@ docker compose down -v
 
 ## Run without Docker
 
-**Requirements:** Java 17, Maven 3.9+, Node.js 18+, MySQL 8.0
+This method runs the backend and frontend on your machine directly.
 
-Run the setup script — it checks prerequisites, initializes the database, and starts both backend and frontend:
+### Prerequisites
 
-```bash
-./start-local.sh
+You must download and install these tools manually before starting:
+
+- **Java JDK 17** - [Download Here](https://adoptium.net/)
+- **Maven 3.9+** - [Download Here](https://maven.apache.org/download.cgi)
+- **Node.js 18+ (LTS)** - [Download Here](https://nodejs.org/)
+- **MySQL 8.0** - [Download Here](https://dev.mysql.com/downloads/installer/)
+
+### Steps to Run
+
+Follow these steps in order:
+
+#### 1. Initialize the Database
+Open your MySQL client (like MySQL Workbench or Command Line) and run the SQL scripts to create the database and tables.
+
+```sql
+source LibraryProject/DB/DDL.sql
+source LibraryProject/DB/DML.sql
+```
+*(Alternatively, copy-paste the content of `LibraryProject/DB/DDL.sql` and `LibraryProject/DB/DML.sql` into your SQL query window and execute them.)*
+
+#### 2. Configure Backend Database Connection
+Open `LibraryProject/src/main/resources/application.properties` and edit the following lines with your MySQL username and password:
+
+```properties
+spring.datasource.username=root
+spring.datasource.password=YOUR_PASSWORD_HERE
 ```
 
-The script will prompt for your MySQL host, port, username, and password, then start everything automatically.
+#### 3. Start Backend (Spring Boot)
+Open a terminal in the root folder and run:
 
-Press `Ctrl+C` to stop all services.
+```bash
+cd LibraryProject
+mvn spring-boot:run
+```
+Wait until you see `Started LibrarySystemApplication in ... seconds`. The backend is now running at `http://localhost:8080`.
 
-**Manual setup (alternative)**
+#### 4. Start Frontend (Vue.js)
+Open a **new terminal** window (keep the backend running) and run:
 
-If you prefer to run steps manually:
-
-1. Initialize the database in MySQL:
-   ```sql
-   source LibraryProject/DB/DDL.sql
-   source LibraryProject/DB/DML.sql
-   ```
-
-2. Edit `LibraryProject/src/main/resources/application.properties` with your MySQL credentials.
-
-3. Start the backend:
-   ```bash
-   cd LibraryProject
-   mvn spring-boot:run
-   ```
-
-4. Start the frontend (in a new terminal):
-   ```bash
-   cd LibraryProject/frontend
-   npm install
-   npm run dev
-   ```
+```bash
+cd LibraryProject/frontend
+npm install
+npm run dev
+```
+The frontend will start at `http://localhost:5173`. Open this URL in your browser.
