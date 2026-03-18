@@ -1,3 +1,4 @@
+SET NAMES utf8mb4;
 USE LibraryDB;
 
 -- 插入測試書籍
@@ -18,6 +19,5 @@ INSERT INTO Inventory (ISBN, Status) VALUES
 ('978-0747538486', '可借閱'),
 ('978-0747542155', '可借閱');
 
--- 插入測試使用者 (密碼需透過應用程式 bcrypt 加密，此處僅為示意)
 INSERT IGNORE INTO User (PhoneNumber, Password, UserName) VALUES 
-('0912345678', '$2a$10$xyz123...', 'Test User');
+('0912345678', '0000', 'Test User');
