@@ -48,10 +48,10 @@ This method runs the backend and frontend on your machine directly.
 
 You must download and install these tools manually before starting:
 
-- **Java JDK 17** - [Download Here](https://adoptium.net/)
-- **Maven 3.9+** - [Download Here](https://maven.apache.org/download.cgi)
-- **Node.js 18+ (LTS)** - [Download Here](https://nodejs.org/)
-- **MySQL 8.0** - [Download Here](https://dev.mysql.com/downloads/installer/)
+- **Java JDK 17** - 
+- **Maven 3.9+** - 
+- **Node.js 18+ (LTS)** - 
+- **MySQL 8.0** - 
 
 ### Steps to Run
 
