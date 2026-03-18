@@ -10,7 +10,7 @@ A library management system with a Spring Boot backend, Vue.js frontend, and MyS
 
 ```bash
 git clone <repo-url>
-cd library-management-system
+cd library-project
 docker compose up -d
 ```
 
