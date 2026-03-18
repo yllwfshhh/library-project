@@ -9,7 +9,7 @@ A library management system with a Spring Boot backend, Vue.js frontend, and MyS
 **Requirement:** [Docker](https://www.docker.com/products/docker-desktop) installed.
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/yllwfshhh/library-project.git
 cd library-project
 docker compose up -d
 ```
